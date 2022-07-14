@@ -1,5 +1,5 @@
 // Appearance
-static const unsigned int borderpx  = 1;  // Border pixel of windows
+static const unsigned int borderpx  = 3;  // Border pixel of windows
 static const unsigned int snap      = 32; // snap pixel
 
 static const int showbar            = 1;  // 0 means no bar
@@ -7,51 +7,56 @@ static const int topbar             = 1;  // 0 means bottom bar
 
 static const char *fonts[]          = {"NotoSansMono Nerd Font:size=11"};
 
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
-
-static const char col_unselected[]  = "#696969";
+static const char col_main[]        = "#084973";
+static const char col_unselected[]  = "#595959";
 static const char col_black[]       = "#000000";
-static const char col_white[]       = "#FFFFFF";
-static const char col_main[]        = "#4b846c";
+static const char col_white[]       = "#ffffff";
+
+
 
 static const char *colors[][3]      = {
-	// -------------- fg          bg         border
+	// -------------- fg               bg         border
 	[SchemeNorm]    = {col_unselected, col_black, col_unselected},
 	[SchemeSel]     = {col_white, col_main, col_main},
 	[SchemeStatus]  = {col_white, col_black, col_unselected},
 };
 
+
+
 // Tagging
-static const char *tags[] = { "", "爵", "", "", ""};
+static const char *tags[] = { "", "", "", "", ""};
 
 static const Rule rules[] = {
-	/* xprop(1):
-	 *	WM_CLASS(STRING) = instance, class
-	 *	WM_NAME(STRING) = title
-	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
+
+	// xprop(1):
+	//  WM_CLASS(STRING) = instance, class
+	//  WM_NAME(STRING) = title
+	// 
+
+	// Class      instance    title       tags mask     isfloating   monitor
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
 	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
 };
 
-/* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
-static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
-static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
+
+
+// Layout(s)
+static const float mfact     = 0.55; // Factor of master area size [0.05..0.95]
+static const int nmaster     = 1;    // Number of clients in master area
+static const int resizehints = 0;    // 1 means respect size hints in tiled resizals
+static const int lockfullscreen = 1; // 1 will force focus on the fullscreen window
 
 static const Layout layouts[] = {
-	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
+	// Symbol     arrange function
+	{ "=",       tile },    // First entry is default
+	{ "><>",      NULL },    // No layout function means floating behavior
 	{ "[M]",      monocle },
 };
 
+
+
 #define MODKEY Mod1Mask
+
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -60,15 +65,20 @@ static const Layout layouts[] = {
 
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
+
+
 static const char *termcmd[]  = {"urxvt", NULL};
-static const char *browser[]  = {"firefox", NULL};
+static const char *browsercmd[]  = {"firefox", NULL};
+
+
 
 static Key keys[] = {
-	// Modifier                     key        function        argument
+    // Macros for programs
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },           // Spawn terminal
-	{ MODKEY|ShiftMask,             XK_f,      spawn,          {.v = browser } },           // Spawn browser
+	{ MODKEY|ShiftMask,             XK_f,      spawn,          {.v = browsercmd } },        // Spawn browser
 	{ MODKEY,                       XK_x,      spawn,          SHCMD("tmux kill-server") }, // Kills all tmux windows; ctrl+d to kill one tmux window
 
+    // Macros for control
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -76,7 +86,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-
 	//{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
@@ -91,22 +100,23 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+
+    // Tags/WS
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
 	TAGKEYS(                        XK_4,                      3)
 	TAGKEYS(                        XK_5,                      4)
 	TAGKEYS(                        XK_6,                      5)
-	TAGKEYS(                        XK_7,                      6)
-	TAGKEYS(                        XK_8,                      7)
-	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_e,      quit,           {0} },
 };
 
-/* button definitions */
-/* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
+
+
+// Button definitions
+// Click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkClientWin, or ClkRootWin
 static Button buttons[] = {
-	/* click                event mask      button          function        argument */
+	// Click                event mask      button          function        argument
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
