@@ -7,18 +7,18 @@ static const int topbar             = 1;  // 0 means bottom bar
 
 static const char *fonts[]          = {"NotoSansMono Nerd Font:size=11"};
 
-static const char col_main[]        = "#084973";
-static const char col_unselected[]  = "#595959";
-static const char col_black[]       = "#000000";
+static const char col_green[]       = "#084973";
+static const char col_gray[]        = "#595959";
+static const char col_dark[]        = "#0c0c0d";
 static const char col_white[]       = "#ffffff";
 
 
 
 static const char *colors[][3]      = {
-	// -------------- fg               bg         border
-	[SchemeNorm]    = {col_unselected, col_black, col_unselected},
-	[SchemeSel]     = {col_white, col_main, col_main},
-	[SchemeStatus]  = {col_white, col_black, col_unselected},
+	// -------------- fg          bg         border
+	[SchemeNorm]    = {col_gray,  col_dark,  col_gray},
+	[SchemeSel]     = {col_white, col_green, col_green},
+	[SchemeStatus]  = {col_white, col_dark,  col_gray},
 };
 
 
