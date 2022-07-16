@@ -1,24 +1,26 @@
 // Appearance
-static const unsigned int borderpx  = 3;  // Border pixel of windows
-static const unsigned int snap      = 32; // snap pixel
+static const unsigned int borderpx          = 5;  // Border pixel of windows
+static const unsigned int snap              = 32; // snap pixel
 
-static const int showbar            = 1;  // 0 means no bar
-static const int topbar             = 1;  // 0 means bottom bar
+static const int showbar                    = 1;  // 0 means no bar
+static const int topbar                     = 1;  // 0 means bottom bar
 
-static const char *fonts[]          = {"NotoSansMono Nerd Font:size=11"};
+static const char *fonts[]                  = {"NotoSansMono Nerd Font:size=11"};
 
-static const char col_green[]       = "#084973";
-static const char col_gray[]        = "#595959";
-static const char col_dark[]        = "#0c0c0d";
-static const char col_white[]       = "#ffffff";
+static const char col_border_selected[]     = "#131b20"; // Border colour of selected window
+static const char col_border_unselected[]   = "#0a0d10"; // Border colour of unselected window
+static const char col_tag_selected[]        = "#131b20"; // Selected tag colour
+static const char col_tag_name_selected[]   = "#ffffff"; // Name colour of selected tag
+static const char col_tag_name_unselected[] = "#595959"; // Name colour of unselected tag
+static const char col_bar[]                 = "#0c0c0d"; // Bar colour
 
 
 
 static const char *colors[][3]      = {
-	// -------------- fg          bg         border
-	[SchemeNorm]    = {col_gray,  col_dark,  col_gray},
-	[SchemeSel]     = {col_white, col_green, col_green},
-	[SchemeStatus]  = {col_white, col_dark,  col_gray},
+	// -------------- fg                        bg                border
+	[SchemeNorm]    = {col_tag_name_unselected, col_bar,          col_border_unselected},
+	[SchemeSel]     = {col_tag_name_selected,   col_tag_selected, col_border_selected},
+	[SchemeStatus]  = {col_tag_name_selected,   col_bar,          col_tag_name_unselected},
 };
 
 
