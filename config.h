@@ -1,5 +1,5 @@
 // Appearance
-static const unsigned int borderpx          = 1;  // Border pixel of windows
+static const unsigned int borderpx          = 3;  // Border pixel of windows
 static const unsigned int snap              = 32; // snap pixel
 
 static const int showbar                    = 1;  // 0 means no bar
@@ -7,10 +7,12 @@ static const int topbar                     = 1;  // 0 means bottom bar
 
 static const char *fonts[]                  = {"NotoSansMono Nerd Font:size=11"};
 
-static const char col_border_selected[]     = "#aecc6f"; // Border colour of selected window
-static const char col_border_unselected[]   = "#595959"; // Border colour of unselected window
-static const char col_tag_selected[]        = "#aecc6f"; // Selected tag colour
-static const char col_tag_name_selected[]   = "#000000"; // Name colour of selected tag
+static const char col_prefered_gray[]       = "#595959";
+
+static const char col_border_selected[]     = "#202020"; // Border colour of selected window
+static const char col_border_unselected[]   = "#000000"; // Border colour of unselected window
+static const char col_tag_selected[]        = "#202020"; // Selected tag colour
+static const char col_tag_name_selected[]   = "#ffffff"; // Name colour of selected tag
 static const char col_tag_name_unselected[] = "#595959"; // Name colour of unselected tag
 static const char col_bar[]                 = "#000000"; // Bar colour
 static const char col_bar_text[]            = "#000000"; // Bar colour
