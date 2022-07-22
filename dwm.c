@@ -1687,20 +1687,40 @@ tile(Monitor *m)
         mw = m->nmaster ? m->ww * m->mfact : 0;
     else
         mw = m->ww;
+
     for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
-        if (i < m->nmaster) {
+        if (i < m->nmaster)
+        {
             h = (m->wh - my) / (MIN(n, m->nmaster) - i);
+
+            // If there's only 1 tile/window, resize xywh with gappx
             if (n == 1)
+            {
                 resize(c, m->wx + gappx, m->wy + my + gappx, mw - (2 * c->bw) - gappx * 2, h - (2 * c->bw) - gappx * 2, 0);
-            else
+
+            // Else if the number of nmaster >= tiles/windows (the number of clients in the master area), resize xywh with gappx
+            // If nmaster >= tiles/windows then the tiles/windows are stacked
+            } else if (m->nmaster >= n)
+            {
                 resize(c, m->wx + gappx, m->wy + my + gappx, mw - (2 * c->bw) - gappx * 2, h - (2 * c->bw) - gappx * 2, 0);
+
+            // Otherwise, only resize xyh with gappx as the master window is side by side with slave windows
+            // Therefore, to prevent a 2x gappx between master and slaves, do not resize w with 2*gappx
+            } else
+            {
+                resize(c, m->wx + gappx, m->wy + my + gappx, mw - (2 * c->bw) - gappx, h - (2 * c->bw) - gappx * 2, 0);
+            }
+
             if (my + HEIGHT(c) < m->wh)
-                my += HEIGHT(c) + gappx;
-        } else {
+                my += HEIGHT(c) + gappx; // Add gappx between stacked tiles/windows
+
+        } else
+        {
             h = (m->wh - ty) / (n - i);
             resize(c, m->wx + mw + gappx, m->wy + ty + gappx, m->ww - mw - (2 * c->bw) - gappx * 2, h - (2 * c->bw) - gappx * 2, 0);
+
             if (ty + HEIGHT(c) < m->wh)
-                ty += HEIGHT(c) + gappx;
+                ty += HEIGHT(c) + gappx; // Add gappx between stacked tiles/windows
         }
 }
 
