@@ -56,6 +56,7 @@
 #define HEIGHT(X)               ((X)->h + 2 * (X)->bw)
 #define TAGMASK                 ((1 << LENGTH(tags)) - 1)
 #define TEXTW(X)                (drw_fontset_getwidth(drw, (X)) + lrpad)
+#define DEBUG 0
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
@@ -376,6 +377,7 @@ applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact)
         if (c->maxh)
             *h = MIN(*h, c->maxh);
     }
+
     return *x != c->x || *y != c->y || *w != c->w || *h != c->h;
 }
 
@@ -1110,7 +1112,15 @@ monocle(Monitor *m)
         if (ISVISIBLE(c))
             n++;
     for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
+    {
+        #if DEBUG
+            FILE* fp = fopen("/home/tkyc/Repos/dwm/dwm.log", "a");
+            fprintf(fp, "[Monocle] wx: %d, wy: %d, ww: %d, bw: %d, wh: %d\r\n", m->wx, m->wy, m->ww, c->bw, m->wh);
+            fclose(fp);
+        #endif
+
         resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw, 0);
+    }
 }
 
 void
@@ -1634,9 +1644,6 @@ sigchld(int unused)
 void
 spawn(const Arg *arg)
 {
-    // Not using dmenu
-    //if (arg->v == dmenucmd)
-    //    dmenumon[0] = '0' + selmon->num;
     if (fork() == 0) {
         if (dpy)
             close(ConnectionNumber(dpy));
@@ -1683,14 +1690,17 @@ tile(Monitor *m)
     for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
         if (i < m->nmaster) {
             h = (m->wh - my) / (MIN(n, m->nmaster) - i);
-            resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
+            if (n == 1)
+                resize(c, m->wx + gappx, m->wy + my + gappx, mw - (2 * c->bw) - gappx * 2, h - (2 * c->bw) - gappx * 2, 0);
+            else
+                resize(c, m->wx + gappx, m->wy + my + gappx, mw - (2 * c->bw) - gappx * 2, h - (2 * c->bw) - gappx * 2, 0);
             if (my + HEIGHT(c) < m->wh)
-                my += HEIGHT(c);
+                my += HEIGHT(c) + gappx;
         } else {
             h = (m->wh - ty) / (n - i);
-            resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), 0);
+            resize(c, m->wx + mw + gappx, m->wy + ty + gappx, m->ww - mw - (2 * c->bw) - gappx * 2, h - (2 * c->bw) - gappx * 2, 0);
             if (ty + HEIGHT(c) < m->wh)
-                ty += HEIGHT(c);
+                ty += HEIGHT(c) + gappx;
         }
 }
 
@@ -2136,10 +2146,12 @@ main(int argc, char *argv[])
         die("dwm: cannot open display");
     checkotherwm();
     setup();
-#ifdef __OpenBSD__
-    if (pledge("stdio rpath proc exec", NULL) == -1)
-        die("pledge");
-#endif /* __OpenBSD__ */
+
+    #ifdef __OpenBSD__
+        if (pledge("stdio rpath proc exec", NULL) == -1)
+            die("pledge");
+    #endif /* __OpenBSD__ */
+
     scan();
     run();
     cleanup();
