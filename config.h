@@ -1,5 +1,5 @@
 // Appearance
-static const unsigned int gappx             = 10; // Gap pixel of windows
+static const unsigned int gappx             = 3; // Gap pixel of windows
 static const unsigned int borderpx          = 3;  // Border pixel of windows
 static const unsigned int snap              = 32; // snap pixel
 

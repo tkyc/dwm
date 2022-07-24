@@ -93,6 +93,7 @@ struct Client {
     int bw, oldbw;
     unsigned int tags;
     int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen;
+    unsigned int gappx;
     Client *next;
     Client *snext;
     Monitor *mon;
@@ -1028,6 +1029,7 @@ manage(Window w, XWindowAttributes *wa)
     c->w = c->oldw = wa->width;
     c->h = c->oldh = wa->height;
     c->oldbw = wa->border_width;
+    c->gappx = gappx;
 
     updatetitle(c);
     if (XGetTransientForHint(dpy, w, &trans) && (t = wintoclient(trans))) {
@@ -1048,8 +1050,9 @@ manage(Window w, XWindowAttributes *wa)
         && (c->x + (c->w / 2) < c->mon->wx + c->mon->ww)) ? bh : c->mon->my);
 
     // Apply border width to terminal only
-    if (strcmp("urxvt", c->name)) c->bw = 0;
-    else c->bw = borderpx;
+    //if (strcmp(termcmd[0], c->name)) c->bw = 0;
+    //else c->bw = borderpx;
+    c->bw = borderpx;
 
     wc.border_width = c->bw;
     XConfigureWindow(dpy, w, CWBorderWidth, &wc);
@@ -1676,10 +1679,13 @@ tagmon(const Arg *arg)
 void
 tile(Monitor *m)
 {
-    unsigned int i, n, h, mw, my, ty;
+    unsigned int i, n, h, mw, my, ty, hasTerminal = 0;
     Client *c;
 
-    for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+    for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++)
+        // Check if there's at least 1 terminal in the client list
+        if (!strcmp(termcmd[0], c->name)) hasTerminal = 1;
+
     if (n == 0)
         return;
 
@@ -1689,6 +1695,11 @@ tile(Monitor *m)
         mw = m->ww;
 
     for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+    {
+        // Only apply gappx if there's at least 1 terminal in the tag
+        if (!hasTerminal) c->gappx = 0;
+        else c->gappx = gappx;
+
         if (i < m->nmaster)
         {
             h = (m->wh - my) / (MIN(n, m->nmaster) - i);
@@ -1696,32 +1707,33 @@ tile(Monitor *m)
             // If there's only 1 tile/window, resize xywh with gappx
             if (n == 1)
             {
-                resize(c, m->wx + gappx, m->wy + my + gappx, mw - (2 * c->bw) - gappx * 2, h - (2 * c->bw) - gappx * 2, 0);
+                resize(c, m->wx + c->gappx, m->wy + my + c->gappx, mw - (2 * c->bw) - c->gappx * 2, h - (2 * c->bw) - c->gappx * 2, 0);
 
             // Else if the number of nmaster >= tiles/windows (the number of clients in the master area), resize xywh with gappx
             // If nmaster >= tiles/windows then the tiles/windows are stacked
             } else if (m->nmaster >= n)
             {
-                resize(c, m->wx + gappx, m->wy + my + gappx, mw - (2 * c->bw) - gappx * 2, h - (2 * c->bw) - gappx * 2, 0);
+                resize(c, m->wx + c->gappx, m->wy + my + c->gappx, mw - (2 * c->bw) - c->gappx * 2, h - (2 * c->bw) - c->gappx * 2, 0);
 
             // Otherwise, only resize xyh with gappx as the master window is side by side with slave windows
             // Therefore, to prevent a 2x gappx between master and slaves, do not resize w with 2*gappx
             } else
             {
-                resize(c, m->wx + gappx, m->wy + my + gappx, mw - (2 * c->bw) - gappx, h - (2 * c->bw) - gappx * 2, 0);
+                resize(c, m->wx + c->gappx, m->wy + my + c->gappx, mw - (2 * c->bw) - c->gappx, h - (2 * c->bw) - c->gappx * 2, 0);
             }
 
             if (my + HEIGHT(c) < m->wh)
-                my += HEIGHT(c) + gappx; // Add gappx between stacked tiles/windows
+                my += HEIGHT(c) + c->gappx; // Add gappx between stacked tiles/windows
 
         } else
         {
             h = (m->wh - ty) / (n - i);
-            resize(c, m->wx + mw + gappx, m->wy + ty + gappx, m->ww - mw - (2 * c->bw) - gappx * 2, h - (2 * c->bw) - gappx * 2, 0);
+            resize(c, m->wx + mw + c->gappx, m->wy + ty + c->gappx, m->ww - mw - (2 * c->bw) - c->gappx * 2, h - (2 * c->bw) - c->gappx * 2, 0);
 
             if (ty + HEIGHT(c) < m->wh)
-                ty += HEIGHT(c) + gappx; // Add gappx between stacked tiles/windows
+                ty += HEIGHT(c) + c->gappx; // Add gappx between stacked tiles/windows
         }
+    }
 }
 
 void
