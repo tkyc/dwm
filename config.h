@@ -1,6 +1,6 @@
 // Appearance
-static const unsigned int gappx             = 3; // Gap pixel of windows
-static const unsigned int borderpx          = 3;  // Border pixel of windows
+static const unsigned int gappx             = 3;  // Gap pixel of windows
+static const unsigned int borderpx          = 0;  // Border pixel of windows
 static const unsigned int snap              = 32; // snap pixel
 
 static const int showbar                    = 1;  // 0 means no bar
@@ -8,15 +8,23 @@ static const int topbar                     = 1;  // 0 means bottom bar
 
 static const char *fonts[]                  = {"NotoSansMono Nerd Font:size=11"};
 
-static const char col_prefered_gray[]       = "#595959";
+// Personal theme
+//static const char col_border_selected[]     = "#202020"; // Border colour of selected window
+//static const char col_border_unselected[]   = "#000000"; // Border colour of unselected window
+//static const char col_tag_selected[]        = "#202020"; // Selected tag colour
+//static const char col_tag_name_selected[]   = "#ffffff"; // Name colour of selected tag
+//static const char col_tag_name_unselected[] = "#595959"; // Name colour of unselected tag
+//static const char col_bar[]                 = "#000000"; // Bar colour
+//static const char col_bar_text[]            = "#000000"; // Bar colour
 
-static const char col_border_selected[]     = "#202020"; // Border colour of selected window
-static const char col_border_unselected[]   = "#000000"; // Border colour of unselected window
-static const char col_tag_selected[]        = "#202020"; // Selected tag colour
-static const char col_tag_name_selected[]   = "#ffffff"; // Name colour of selected tag
-static const char col_tag_name_unselected[] = "#595959"; // Name colour of unselected tag
-static const char col_bar[]                 = "#000000"; // Bar colour
-static const char col_bar_text[]            = "#000000"; // Bar colour
+// Nord theme
+static const char col_border_selected[]     = "#b48ead"; // Border colour of selected window
+static const char col_border_unselected[]   = "#2e3440"; // Border colour of unselected window
+static const char col_tag_selected[]        = "#8fbcbb"; // Selected tag colour
+static const char col_tag_name_selected[]   = "#090e17"; // Name colour of selected tag
+static const char col_tag_name_unselected[] = "#d8dee9"; // Name colour of unselected tag
+static const char col_bar[]                 = "#090e17"; // Bar colour
+static const char col_bar_text[]            = "#090e17"; // Bar colour
 
 
 

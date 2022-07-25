@@ -1050,9 +1050,8 @@ manage(Window w, XWindowAttributes *wa)
         && (c->x + (c->w / 2) < c->mon->wx + c->mon->ww)) ? bh : c->mon->my);
 
     // Apply border width to terminal only
-    //if (strcmp(termcmd[0], c->name)) c->bw = 0;
-    //else c->bw = borderpx;
-    c->bw = borderpx;
+    if (strcmp(termcmd[0], c->name)) c->bw = 0;
+    else c->bw = borderpx;
 
     wc.border_width = c->bw;
     XConfigureWindow(dpy, w, CWBorderWidth, &wc);
