@@ -32,7 +32,7 @@ static const char *colors[][3]      = {
 
 
 // Tagging
-static const char *tags[] = { "", "", "", "", ""};
+static const char *tags[] = {"", "", "", "", ""};
 
 static const Rule rules[] = {
 
@@ -58,7 +58,7 @@ static const Layout layouts[] = {
     // Symbol     arrange function
     {"",         tile},   // First entry is default
     {"",         NULL},   // No layout function means floating behavior
-    {"",         monocle},
+    {"",         monocle},
 };
 
 
@@ -85,6 +85,7 @@ static Key keys[] = {
     {MODKEY,                       XK_Return, spawn,          {.v = termcmd}},            // Spawn terminal
     {MODKEY|ShiftMask,             XK_f,      spawn,          {.v = browsercmd}},         // Spawn browser
     {MODKEY,                       XK_x,      spawn,          SHCMD("tmux kill-server")}, // Kills all tmux windows; ctrl+d to kill one tmux window
+    {MODKEY|ControlMask,           XK_f,      spawn,          SHCMD("thunar &")},         // Spawn GUI file manager
 
     // Macros for control
     {MODKEY,                       XK_b,      togglebar,      {0} },
@@ -138,3 +139,4 @@ static Button buttons[] = {
     {ClkTagBar,            MODKEY,         Button1,        tag,            {0}},
     {ClkTagBar,            MODKEY,         Button3,        toggletag,      {0}},
 };
+
