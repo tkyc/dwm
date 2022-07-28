@@ -20,7 +20,7 @@ static const char col_bar_text[]            = "#090e17"; // Bar colour
 
 
 
-static const char *colors[][3]      = {
+static const char *colors[][3] = {
     // -------------- fg                        bg                border
     [SchemeNorm]    = {col_tag_name_unselected, col_bar,          col_border_unselected},
     [SchemeSel]     = {col_tag_name_selected,   col_tag_selected, col_border_selected},
@@ -77,6 +77,8 @@ static const Layout layouts[] = {
 
 static const char *termcmd[]  = {"urxvt", NULL};
 static const char *browsercmd[]  = {"firefox", NULL};
+static const char *guifilemanagercmd[]  = {"thunar", NULL};
+static const char *guitexteditorcmd[]  = {"mousepad", NULL};
 
 
 
@@ -84,8 +86,9 @@ static Key keys[] = {
     // Macros for programs
     {MODKEY,                       XK_Return, spawn,          {.v = termcmd}},            // Spawn terminal
     {MODKEY|ShiftMask,             XK_f,      spawn,          {.v = browsercmd}},         // Spawn browser
-    {MODKEY,                       XK_x,      spawn,          SHCMD("tmux kill-server")}, // Kills all tmux windows; ctrl+d to kill one tmux window
-    {MODKEY|ControlMask,           XK_f,      spawn,          SHCMD("thunar &")},         // Spawn GUI file manager
+    {MODKEY|ControlMask,           XK_f,      spawn,          {.v = guifilemanagercmd}},  // Spawn GUI file manager
+    {MODKEY|ControlMask,           XK_m,      spawn,          {.v = guitexteditorcmd}},   // Spawn GUI text editor
+    {MODKEY,                       XK_x,      spawn,          SHCMD("tmux kill-server")}, // Kill all tmux windows; ctrl+d to kill 1 window
 
     // Macros for control
     {MODKEY,                       XK_b,      togglebar,      {0} },
