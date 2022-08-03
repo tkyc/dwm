@@ -1308,6 +1308,9 @@ resizemouse(const Arg *arg)
         return;
     if (c->isfullscreen) /* no support resizing fullscreen windows by mouse */
         return;
+    if (strcmp(selmon->ltsymbol, layouts[1].symbol) != 0)
+        return;
+
     restack(selmon);
     ocx = c->x;
     ocy = c->y;
