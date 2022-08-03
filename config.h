@@ -129,6 +129,7 @@ static Key keys[] = {
 
 // Button definitions
 // Click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkClientWin, or ClkRootWin
+// Left click == Button1, right click == Button2, other click == Button3 
 static Button buttons[] = {
     // Click                event mask      button          function        argument
     {ClkLtSymbol,          0,              Button1,        setlayout,      {0}},

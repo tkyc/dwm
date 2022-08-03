@@ -1755,11 +1755,16 @@ togglefloating(const Arg *arg)
         return;
     if (selmon->sel->isfullscreen) /* no support for fullscreen windows */
         return;
+
     selmon->sel->isfloating = !selmon->sel->isfloating || selmon->sel->isfixed;
+
     if (selmon->sel->isfloating)
         resize(selmon->sel, selmon->sel->x, selmon->sel->y,
             selmon->sel->w, selmon->sel->h, 0);
+
     arrange(selmon);
+    strncpy(selmon->ltsymbol, layouts[1].symbol, sizeof selmon->ltsymbol);
+    drawbar(selmon);
 }
 
 void
