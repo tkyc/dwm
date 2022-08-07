@@ -1700,8 +1700,10 @@ tile(Monitor *m)
     for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
     {
         // Only apply gappx if there's at least 1 terminal in the tag
-        if (!hasTerminal) c->gappx = 0;
-        else c->gappx = gappx;
+        // or if there is more than 1 window in the tag
+        if (hasTerminal) c->gappx = gappx;
+        else if (n > 1) c->gappx = gappx;
+        else c->gappx = 0;
 
         if (i < m->nmaster)
         {
@@ -1751,6 +1753,7 @@ togglebar(const Arg *arg)
 void
 togglefloating(const Arg *arg)
 {
+    // TODO: Fix togglefloating, togglefloating doesn't switch back to previous mode symbol
     if (!selmon->sel)
         return;
     if (selmon->sel->isfullscreen) /* no support for fullscreen windows */
