@@ -16,12 +16,12 @@ static const float fullscreen_bg[]         = {0.0f, 0.0f, 0.0f, 1.0f}; /* You ca
 static uint32_t colors[][3]                = {
 	/*               fg          bg          border    */
 	[SchemeNorm] = { 0xffffffff, 0x000000ff, 0x00000000 },
-	[SchemeSel]  = { 0xffffffff, 0x1d8579ff, 0x00000000 },
-	[SchemeUrg]  = { 0,          0,          0x770000ff },
+	[SchemeSel]  = { 0x75b06fff, 0x000000ff, 0x00000000 },
+	[SchemeUrg]  = { 0,          0,          0          },
 };
 
 /* tagging */
-static char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static char *tags[] = { "\uf111", "\uf111", "\uf111", "\uf111", "\uf111", "\uf111", "\uf111" };
 
 /* logging */
 static int log_level = WLR_ERROR;
@@ -36,9 +36,9 @@ static const Rule rules[] = {
 /* layout(s) */
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },
-	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ "[M]",      monocle },
+	{ "t", tile },
+	{ "f", NULL },    /* no layout function means floating behavior */
+	{ "m", monocle },
 };
 
 /* monitors */
