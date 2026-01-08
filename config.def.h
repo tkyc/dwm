@@ -13,15 +13,21 @@ static const char *fonts[]                 = {"JetBrainsMono Nerd Font Mono:styl
 static const float rootcolor[]             = COLOR(0x000000ff);
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.0f, 0.0f, 0.0f, 1.0f}; /* You can also use glsl colors */
-static uint32_t colors[][3]                = {
+
+static const uint32_t bg_color = 0x2e3440ff;
+static const uint32_t border_color = 0x00000000;
+static uint32_t lay_color[] = {0x88c0d0ff, bg_color, border_color};
+static uint32_t colors[][3] = {
 	/*               fg          bg          border    */
-	[SchemeNorm] = { 0xffffffff, 0x000000ff, 0x00000000 },
-	[SchemeSel]  = { 0x75b06fff, 0x000000ff, 0x00000000 },
+	[SchemeNorm] = { 0xebcb8bff, bg_color, border_color },
+	[SchemeSel]  = { 0xa3be8cff, bg_color, border_color },
+	[SchemeOcc]  = { 0xbf616aff, bg_color, border_color },
 	[SchemeUrg]  = { 0,          0,          0          },
 };
 
 /* tagging */
-static char *tags[] = { "\uf111", "\uf111", "\uf111", "\uf111", "\uf111", "\uf111", "\uf111" };
+static char *tags[] = { "○", "○", "○", "○", "○", "○", "○" };
+static char *occs[] = { "●" };
 
 /* logging */
 static int log_level = WLR_ERROR;
