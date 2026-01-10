@@ -26,7 +26,8 @@ static uint32_t colors[][3] = {
 };
 
 /* tagging */
-static char *tags[] = { "○", "○", "○", "○", "○", "○", "○" };
+//static char *tags[] = { "○", "○", "○", "○", "○", "○", "○" };
+static char *tags[] = { "", "", "", "", "", "", "" };
 static char *occs[] = { "●" };
 
 /* logging */
@@ -42,9 +43,9 @@ static const Rule rules[] = {
 /* layout(s) */
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "t", tile },
-	{ "f", NULL },    /* no layout function means floating behavior */
-	{ "m", monocle },
+	{ "󱗿", tile },
+	{ "󱗼", NULL },    /* no layout function means floating behavior */
+	{ "󰇘", monocle },
 };
 
 /* monitors */
