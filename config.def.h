@@ -16,9 +16,9 @@ static const float rootcolor[]             = COLOR(0x000000ff);
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.0f, 0.0f, 0.0f, 1.0f}; /* You can also use glsl colors */
 
-static const uint32_t bg_color = 0x24283bff;
+static const uint32_t bg_color = 0x1a1b26ff;
 static const uint32_t border_color = 0x00000000;
-static uint32_t lay_color[] = {0x88c0d0ff, bg_color, border_color};
+static uint32_t lay_color[] = {0x7aa2f7ff, bg_color, border_color};
 static uint32_t colors[][3] = {
 	/*               fg          bg          border    */
 	[SchemeNorm] = { 0xe0af68ff, bg_color, border_color },
