@@ -16,14 +16,14 @@ static const float rootcolor[]             = COLOR(0x000000ff);
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.0f, 0.0f, 0.0f, 1.0f}; /* You can also use glsl colors */
 
-static const uint32_t bg_color = 0x2e3440ff;
+static const uint32_t bg_color = 0x24283bff;
 static const uint32_t border_color = 0x00000000;
 static uint32_t lay_color[] = {0x88c0d0ff, bg_color, border_color};
 static uint32_t colors[][3] = {
 	/*               fg          bg          border    */
-	[SchemeNorm] = { 0xebcb8bff, bg_color, border_color },
-	[SchemeSel]  = { 0xa3be8cff, bg_color, border_color },
-	[SchemeOcc]  = { 0xbf616aff, bg_color, border_color },
+	[SchemeNorm] = { 0xe0af68ff, bg_color, border_color },
+	[SchemeSel]  = { 0x9ece6aff, bg_color, border_color },
+	[SchemeOcc]  = { 0xf7768eff, bg_color, border_color },
 	[SchemeUrg]  = { 0,          0,          0          },
 };
 
@@ -131,13 +131,13 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 
 /* commands */
 static const char *termcmd[] = { "foot", NULL };
-static const char *menucmd[] = { "wmenu-run", NULL };
+static const char *firefox[] = { "firefox", NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: 2 -> at, etc. */
 	/* modifier                  key                  function          argument */
-	{ MODKEY,                    XKB_KEY_p,           spawn,            {.v = menucmd} },
 	{ MODKEY,                    XKB_KEY_Return,      spawn,            {.v = termcmd} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_f,           spawn,            {.v = firefox} },
 	{ MODKEY,                    XKB_KEY_b,           togglebar,        {0} },
 	{ MODKEY,                    XKB_KEY_j,           focusstack,       {.i = +1} },
 	{ MODKEY,                    XKB_KEY_k,           focusstack,       {.i = -1} },
@@ -148,13 +148,13 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_l,           setmfact,         {.f = +0.05f} },
 	{ MODKEY,                    XKB_KEY_Return,      zoom,             {0} },
 	{ MODKEY,                    XKB_KEY_Tab,         view,             {0} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_c,           killclient,       {0} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_q,           killclient,       {0} },
 	{ MODKEY,                    XKB_KEY_t,           setlayout,        {.v = &layouts[0]} },
-	{ MODKEY,                    XKB_KEY_f,           setlayout,        {.v = &layouts[1]} },
+	{ MODKEY,                    XKB_KEY_p,           setlayout,        {.v = &layouts[1]} },
 	{ MODKEY,                    XKB_KEY_m,           setlayout,        {.v = &layouts[2]} },
 	{ MODKEY,                    XKB_KEY_space,       setlayout,        {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_space,       togglefloating,   {0} },
-	{ MODKEY,                    XKB_KEY_e,           togglefullscreen, {0} },
+	{ MODKEY,                    XKB_KEY_f,           togglefullscreen, {0} },
 	{ MODKEY,                    XKB_KEY_0,           view,             {.ui = ~0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_parenright,  tag,              {.ui = ~0} },
 	{ MODKEY,                    XKB_KEY_comma,       focusmon,         {.i = WLR_DIRECTION_LEFT} },
@@ -170,7 +170,7 @@ static const Key keys[] = {
 	TAGKEYS(          XKB_KEY_7, XKB_KEY_ampersand,                     6),
 	TAGKEYS(          XKB_KEY_8, XKB_KEY_asterisk,                      7),
 	TAGKEYS(          XKB_KEY_9, XKB_KEY_parenleft,                     8),
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_q,           quit,             {0} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_e,           quit,             {0} },
 
 	/* Ctrl-Alt-Backspace and Ctrl-Alt-Fx used to be handled by X server */
 	{ WLR_MODIFIER_CTRL|WLR_MODIFIER_ALT,XKB_KEY_Terminate_Server, quit, {0} },
