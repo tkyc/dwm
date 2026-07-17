@@ -36,9 +36,10 @@ static char *occs[] = { "●" };
 static int log_level = WLR_ERROR;
 
 static const Rule rules[] = {
-	/* app_id             title       tags mask     isfloating   monitor */
-	{ "Gimp_EXAMPLE",     NULL,       0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */
-	{ "firefox_EXAMPLE",  NULL,       1 << 8,       0,           -1 }, /* Start on ONLY tag "9" */
+	/* app_id             title       tags mask     isfloating   monitor   hasbordercolor  borderpx  bordercolor */
+	{ "Gimp_EXAMPLE",     NULL,       0,            1,           -1,       0,              0,        0 }, /* Start on currently visible tags floating, not tiled */
+	{ "firefox_EXAMPLE",  NULL,       1 << 8,       0,           -1,       0,              0,        0 }, /* Start on ONLY tag "9" */
+	{ "foot",             NULL,       0,            0,           -1,       1,              1,        0x7aa2f7ff }, /* Permanent border highlight */
     /* default/example rule: can be changed but cannot be eliminated; at least one rule must exist */
 };
 

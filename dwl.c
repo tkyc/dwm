@@ -147,6 +147,9 @@ typedef struct {
 	uint32_t tags;
 	int isfloating, isurgent, isfullscreen;
 	uint32_t resize; /* configure serial of a pending resize */
+	int hasbordercolor;
+	unsigned int borderpx;
+	uint32_t bordercolor;
 } Client;
 
 typedef struct {
@@ -254,6 +257,9 @@ typedef struct {
 	uint32_t tags;
 	int isfloating;
 	int monitor;
+	int hasbordercolor;   /* 1 = apply borderpx/bordercolor below, permanently */
+	int borderpx;
+	uint32_t bordercolor;
 } Rule;
 
 typedef struct {
@@ -1667,7 +1673,7 @@ focusclient(Client *c, int lift)
 
 		/* Don't change border color if there is an exclusive focus or we are
 		 * handling a drag operation */
-		if (!exclusive_focus && !seat->drag)
+		if (!exclusive_focus && !seat->drag && !c->hasbordercolor)
 			client_set_border_color(c, (float[])COLOR(colors[SchemeSel][ColBorder]));
 	}
 
@@ -1685,7 +1691,8 @@ focusclient(Client *c, int lift)
 		/* Don't deactivate old client if the new one wants focus, as this causes issues with winecfg
 		 * and probably other clients */
 		} else if (old_c && !client_is_unmanaged(old_c) && (!c || !client_wants_focus(c))) {
-			client_set_border_color(old_c, (float[])COLOR(colors[SchemeNorm][ColBorder]));
+			if (!old_c->hasbordercolor)
+				client_set_border_color(old_c, (float[])COLOR(colors[SchemeNorm][ColBorder]));
 			client_activate_surface(old, 0);
 		}
 	}
@@ -2001,9 +2008,27 @@ mapnotify(struct wl_listener *listener, void *data)
 		goto unset_fullscreen;
 	}
 
+	{
+		/* Resolve any border color/width override before creating the border
+		 * rects, since geometry below accounts for border width. */
+		const char *appid = client_get_appid(c);
+		const char *title = client_get_title(c);
+		const Rule *r;
+		for (r = rules; r < END(rules); r++) {
+			if ((!r->title || strstr(title, r->title))
+					&& (!r->id || strstr(appid, r->id)) && r->hasbordercolor) {
+				c->hasbordercolor = 1;
+				c->bw = r->borderpx;
+				c->borderpx = r->borderpx;
+				c->bordercolor = r->bordercolor;
+			}
+		}
+	}
+
 	for (i = 0; i < 4; i++) {
 		c->border[i] = wlr_scene_rect_create(c->scene, 0, 0,
-			(float[])COLOR(colors[c->isurgent ? SchemeUrg : SchemeNorm][ColBorder]));
+			c->hasbordercolor ? (float[])COLOR(c->bordercolor)
+				: (float[])COLOR(colors[c->isurgent ? SchemeUrg : SchemeNorm][ColBorder]));
 		c->border[i]->node.data = c;
 	}
 
@@ -2529,7 +2554,7 @@ setfullscreen(Client *c, int fullscreen)
 	c->isfullscreen = fullscreen;
 	if (!c->mon || !client_surface(c)->mapped)
 		return;
-	c->bw = fullscreen ? 0 : borderpx;
+	c->bw = fullscreen ? 0 : (c->hasbordercolor ? c->borderpx : borderpx);
 	client_set_fullscreen(c, fullscreen);
 	wlr_scene_node_reparent(&c->scene->node, layers[c->isfullscreen
 			? LyrFS : c->isfloating ? LyrFloat : LyrTile]);
@@ -3236,7 +3261,7 @@ urgent(struct wl_listener *listener, void *data)
 	c->isurgent = 1;
 	drawbars();
 
-	if (client_surface(c)->mapped)
+	if (client_surface(c)->mapped && !c->hasbordercolor)
 		client_set_border_color(c, (float[])COLOR(colors[SchemeUrg][ColBorder]));
 }
 
@@ -3440,7 +3465,7 @@ sethints(struct wl_listener *listener, void *data)
 	c->isurgent = xcb_icccm_wm_hints_get_urgency(c->surface.xwayland->hints);
 	drawbars();
 
-	if (c->isurgent && surface && surface->mapped)
+	if (c->isurgent && surface && surface->mapped && !c->hasbordercolor)
 		client_set_border_color(c, (float[])COLOR(colors[SchemeUrg][ColBorder]));
 }
 
