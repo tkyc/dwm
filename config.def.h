@@ -16,7 +16,8 @@ static const float rootcolor[]             = COLOR(0x000000ff);
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.0f, 0.0f, 0.0f, 1.0f}; /* You can also use glsl colors */
 
-static const uint32_t bg_color = 0x1a1b26ff;
+// static const uint32_t bg_color = 0x1a1b26ff;
+static const uint32_t bg_color = 0x000000ff;
 static const uint32_t border_color = 0x00000000;
 static uint32_t lay_color[] = {0x7aa2f7ff, bg_color, border_color};
 static uint32_t colors[][3] = {
@@ -39,7 +40,7 @@ static const Rule rules[] = {
 	/* app_id             title       tags mask     isfloating   monitor   hasbordercolor  borderpx  bordercolor */
 	{ "Gimp_EXAMPLE",     NULL,       0,            1,           -1,       0,              0,        0 }, /* Start on currently visible tags floating, not tiled */
 	{ "firefox_EXAMPLE",  NULL,       1 << 8,       0,           -1,       0,              0,        0 }, /* Start on ONLY tag "9" */
-	{ "foot",             NULL,       0,            0,           -1,       1,              1,        0x7aa2f7ff }, /* Permanent border highlight */
+	{ "foot",             NULL,       0,            0,           -1,       1,              0,        0x7aa2f7ff }, /* Permanent border highlight */
     /* default/example rule: can be changed but cannot be eliminated; at least one rule must exist */
 };
 
